@@ -24,7 +24,7 @@ public class ProductController {
         @RequestParam(required = false) Double maxPrice,
         @RequestParam(required = false) String category,
         @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "2") int size
+        @RequestParam(defaultValue = "10") int size
     ) {
         int skip = size*page;
         List<Product> producticos = repo.findAll();

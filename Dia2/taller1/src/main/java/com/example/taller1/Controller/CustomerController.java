@@ -32,7 +32,7 @@ public class CustomerController {
             .skip(skip)
             .limit(size)
             .collect(Collectors.toList());
-            //Aplica los filtros de minPrice, maxPrice y category, recuerda que pueden aplicarse todos o ninguno
+          
         return listadoFiltrado;
     }
     

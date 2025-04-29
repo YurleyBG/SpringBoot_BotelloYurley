@@ -1,10 +1,16 @@
 package com.example.demojpa.domain;
 
+
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -13,11 +19,17 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name="Full Name",columnDefinition = "TEXT",length = 50,nullable=false)
     private String name;
     private String lastname;
     @Column(name="Programming_language")
     private String language;
 
+    @ManyToOne
+    @JoinColumn(name="rol_id",nullable=false)
+    @JsonBackReference // marcar el lado que no se serializa
+    private Rol role;
+  
     public Person() {
         
     }
@@ -60,6 +72,16 @@ public class Person {
     public void setLanguage(String language) {
         this.language = language;
     }
+
+    public Rol getRole() {
+        return role;
+    }
+
+    public void setRole(Rol role) {
+        this.role = role;
+    }
+
+
     
     
 

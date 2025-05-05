@@ -5,11 +5,11 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
 import com.example.demojpa.application.service.PersonService;
 import com.example.demojpa.domain.Person;
 import com.example.demojpa.domain.Rol;
 import com.example.demojpa.infraestructure.error.RoldDuplicationException;
-
 @Service
 public class PersonServiceImpl implements PersonService{
 
@@ -53,5 +53,31 @@ public class PersonServiceImpl implements PersonService{
     private Optional<Rol> GetRoleByName(String rolName){
         return rolRepository.findByName(rolName);
     }
+
+    @Override
+    public boolean deletePerson(Long id) {
+        Optional<Person> personOptional = personRepository.findById(id);
+        if (personOptional.isPresent()) {
+            personRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateLenguageName(String id, String newUsername) {
+       
+        Optional<Person> personOpti = personRepository.findById(Long.parseLong(id));
+        if (personOpti.isPresent()) {
+            Person person = personOpti.get();
+            person.setLanguage(newUsername);
+            personRepository.save(person);
+            return true;
+        }
+        return false; 
+        
+    }
+    
 }
 

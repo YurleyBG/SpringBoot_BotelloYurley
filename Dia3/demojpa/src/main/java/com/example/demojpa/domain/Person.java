@@ -39,8 +39,8 @@ public class Person {
     private String lastname;
     @Column(name="Programming_language")
     private String language;
-    // 
-    @ManyToOne(cascade = CascadeType.ALL)//nivel de JPA
+    
+    @ManyToOne(cascade = CascadeType.PERSIST)//nivel de JPA
     @JoinColumn(name="rol_id",nullable=false)
     @OnDelete(action = OnDeleteAction.CASCADE)// nivel de base de datos
     @JsonBackReference

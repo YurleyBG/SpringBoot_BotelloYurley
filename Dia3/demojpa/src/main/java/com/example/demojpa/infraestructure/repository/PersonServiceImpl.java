@@ -2,23 +2,19 @@ package com.example.demojpa.infraestructure.repository;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.demojpa.application.service.PersonService;
 import com.example.demojpa.domain.Person;
-import com.example.demojpa.domain.Rol;
-import com.example.demojpa.infraestructure.error.RoldDuplicationException;
+import com.example.demojpa.domain.dto.PersonRequest;
+
+import jakarta.persistence.EntityNotFoundException;
 @Service
 public class PersonServiceImpl implements PersonService{
 
     private final PersonRepository personRepository ;
-    private final  RolRepository rolRepository;
-
-    public PersonServiceImpl(PersonRepository personRepository,RolRepository rolRepository){
+    public PersonServiceImpl(PersonRepository personRepository){
         this.personRepository=personRepository;
-        this.rolRepository=rolRepository;
     }
 
     @Override
@@ -33,27 +29,7 @@ public class PersonServiceImpl implements PersonService{
         
     }
 
-    @Override
-    public List<Rol> findAllRolesByFilter(String filter, String value) {
-        
-        return rolRepository.findAll();
-    }
-
-    @Override
-    public Rol createNewRol(String name) {
-        Rol newRol = new Rol();
-        newRol.setName(name);
-        if(GetRoleByName(name).isPresent()){
-            throw new RoldDuplicationException("El Rol: "+ name +" ya esta registrado.",HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        return rolRepository.save(newRol);
-       
-    }
-    private Optional<Rol> GetRoleByName(String rolName){
-        return rolRepository.findByName(rolName);
-    }
-
+    
     @Override
     public boolean deletePerson(Long id) {
         Optional<Person> personOptional = personRepository.findById(id);
@@ -66,18 +42,37 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public boolean updateLenguageName(String id, String newUsername) {
+    public boolean updateLenguageName(String id, String newLenguagename) {
        
         Optional<Person> personOpti = personRepository.findById(Long.parseLong(id));
         if (personOpti.isPresent()) {
             Person person = personOpti.get();
-            person.setLanguage(newUsername);
+            person.setLanguage(newLenguagename);
             personRepository.save(person);
             return true;
         }
         return false; 
         
     }
+
+    @Override
+    public Person patchPerson(long id, PersonRequest personDto) {
+       Person person = personRepository.findById(id)
+       .orElseThrow(()-> new EntityNotFoundException("Mo se encontro el ususraio solicitado.") );
+        if(personDto.getName()!=null){
+            person.setName(personDto.setName());
+        }
+        if(personDto.getSurname()=null){
+            person.setLastName(personDto.getSurname());
+        }
+        if(personDto.getSkill()!=null){
+            person.setLanguage(personDto.getSkill());
+        }
+        personRepository.save(person);
+        return person;
+    
+    }
+
     
 }
 

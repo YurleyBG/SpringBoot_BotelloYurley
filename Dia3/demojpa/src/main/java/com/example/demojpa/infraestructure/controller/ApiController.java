@@ -13,33 +13,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demojpa.application.service.PersonService;
 import com.example.demojpa.application.service.ProjectService;
+import com.example.demojpa.application.service.RolService;
 import com.example.demojpa.domain.Person;
 import com.example.demojpa.domain.Project;
 import com.example.demojpa.domain.Rol;
 import com.example.demojpa.domain.RoleRequest;
 import com.example.demojpa.domain.namePersonUpdate;
+import com.example.demojpa.domain.dto.PersonRequest;
 
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
-
 @RestController
 @RequestMapping(value="/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiController {
 
-
+    private final RolService rolservice;
     private final PersonService personService ;
     private final ProjectService projectService ;
-    public ApiController(PersonService personService,ProjectService projectService ) {
+
+    public ApiController(PersonService personService,ProjectService projectService, RolService rolservice) {
         this.personService= personService;
         this.projectService= projectService;
+        this.rolservice= rolservice;
     }
 
     @GetMapping("/user")
@@ -55,7 +57,7 @@ public class ApiController {
   
     @PostMapping("/roles")
     public Rol newRole( @Valid @RequestBody RoleRequest role) {
-        return personService.createNewRol(role.getName());
+        return rolservice.createNewRol(role.getName());
     }
 
     
@@ -66,7 +68,7 @@ public class ApiController {
         @RequestParam(name="value",defaultValue ="") String value
         
     ){
-        List<Rol> results=personService.findAllRolesByFilter(filter,value);
+        List<Rol> results=rolservice.findAllRolesByFilter(filter,value);
     
         return ResponseEntity.ok(results);
     }
@@ -80,6 +82,10 @@ public class ApiController {
     
         return results;
     }
+    @DeleteMapping("roles/{id}")
+    public ResponseEntity<Rol> removeRol(@PathVariable(name="id") Long id){
+        return ResponseEntity.ok().body(rolservice.RemoveRol(id));
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
@@ -90,10 +96,9 @@ public class ApiController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
         }
     }
-    
 
     @PutMapping("/put/{id}")
-    public ResponseEntity<String> putMethodName(@PathVariable String id, @RequestBody namePersonUpdate NewLenguge) {
+    public ResponseEntity<String> putLenguageName(@PathVariable String id, @RequestBody namePersonUpdate NewLenguge) {
         
         boolean updated = personService.updateLenguageName(id, NewLenguge.getNewName());
 
@@ -103,8 +108,15 @@ public class ApiController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
+    @PatchMapping("/users/{id}")
+    public  ResponseEntity<Person> ParcialupdatePerson( @PathVariable Long id,@RequestBody PersonRequest PerosonDto){
+        return ResponseEntity.notFound().build();
+    }
 }
+
+
+
 
 
     

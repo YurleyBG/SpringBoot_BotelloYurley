@@ -40,13 +40,13 @@ public class Person {
     @Column(name="Programming_language")
     private String language;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)//nivel de JPA
+    @ManyToOne(cascade = CascadeType.ALL)//nivel de JPA
     @JoinColumn(name="rol_id",nullable=false)
     @OnDelete(action = OnDeleteAction.CASCADE)// nivel de base de datos
     @JsonBackReference
     private Rol role;
 
-    @OneToOne(mappedBy = "person")
+    @OneToOne(mappedBy = "person", cascade= CascadeType.REMOVE,orphanRemoval = true)
     private passport Passport;
 
 

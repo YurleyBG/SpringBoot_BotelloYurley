@@ -52,11 +52,7 @@ public class RolServiceIMPL  implements RolService{
         rolRepository.deleteById(id);
         return rol.get();
         // roleRepository.delete(rol.get());
-        
-        
-
-
-      
+ 
     }
 
 

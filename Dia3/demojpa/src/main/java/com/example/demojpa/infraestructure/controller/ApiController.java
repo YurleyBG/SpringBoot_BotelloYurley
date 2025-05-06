@@ -110,8 +110,8 @@ public class ApiController {
     }
 
     @PatchMapping("/users/{id}")
-    public  ResponseEntity<Person> ParcialupdatePerson( @PathVariable Long id,@RequestBody PersonRequest PerosonDto){
-        return ResponseEntity.notFound().build();
+    public  ResponseEntity<Person> ParcialupdatePerson( @PathVariable Long id,@RequestBody PersonRequest personDto){
+        return ResponseEntity.ok().body(personService.patchPerson(id, personDto));
     }
 }
 

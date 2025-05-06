@@ -57,22 +57,23 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public Person patchPerson(long id, PersonRequest personDto) {
-       Person person = personRepository.findById(id)
-       .orElseThrow(()-> new EntityNotFoundException("Mo se encontro el ususraio solicitado.") );
-        if(personDto.getName()!=null){
-            person.setName(personDto.setName());
+        Person person = personRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("No se encontro el usuario solicitado"));
+
+        if(personDto.getName() != null) {
+            person.setName(personDto.getName());
         }
-        if(personDto.getSurname()=null){
-            person.setLastName(personDto.getSurname());
+
+        if(personDto.getSurname() != null) {
+            person.setLastname(personDto.getSurname());
         }
-        if(personDto.getSkill()!=null){
+
+        if(personDto.getSkill() != null) {
             person.setLanguage(personDto.getSkill());
         }
+
         personRepository.save(person);
+        
         return person;
-    
     }
-
-    
 }
-

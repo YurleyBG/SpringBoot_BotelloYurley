@@ -2,8 +2,14 @@ package com.example.demojpa.domain.dto;
 
 public class PersonRequest {
 
-    private String name, surname, skill;
+    private String name, surname, skill , passport;
 
+    public PersonRequest(String name, String surname, String skill, String passport) {
+        this.name = name;
+        this.surname = surname;
+        this.skill = skill;
+        this.passport=passport;
+    }
     public PersonRequest(String name, String surname, String skill) {
         this.name = name;
         this.surname = surname;
@@ -36,6 +42,15 @@ public class PersonRequest {
     public void setSkill(String skill) {
         this.skill = skill;
     }
+
+    public String getPassport() {
+        return passport;
+    }
+
+    public void setPassport(String passport) {
+        this.passport = passport;
+    }
+    
     
 
 }

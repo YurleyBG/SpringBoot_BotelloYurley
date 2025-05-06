@@ -47,7 +47,7 @@ public class Person {
     private Rol role;
 
     @OneToOne(mappedBy = "person", cascade= CascadeType.REMOVE,orphanRemoval = true)
-    private passport Passport;
+    private Passport passport;
 
 
     @ManyToMany
@@ -110,16 +110,23 @@ public class Person {
         this.role = role;
     }
 
-    public passport getPassport() {
-        return Passport;
+    public List<Project> getProjects() {
+        return projects;
     }
 
-    public void setPassport(passport passport) {
-        Passport = passport;
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 
+    public Passport getPassport() {
+        return passport;
+    }
 
+    public void setPassport(Passport passport) {
+        this.passport = passport;
+    } 
 
+    
 
     
     
